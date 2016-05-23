@@ -1,4 +1,4 @@
-# mosaic-state-manager
+# mosaic-state
 
 A very light-weight state management library (< 100 lines of code).
 It allows to manage immutable state objects using cursors. 
