@@ -1,5 +1,5 @@
 {
-  "name": "mosaic-state",
+  "name": "mosaic-state-manager",
   "version": "0.0.1",
   "description": "Very light-weight state management library",
   "main": "index.js",
@@ -11,13 +11,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mosaicjs/mosaic-state.git"
+    "url": "git+https://github.com/mosaicjs/mosaic-state-manager.git"
   },
   "keywords": [],
   "author": "Mikhail Kotelnikov <mikhail.kotelnikov@ubimix.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mosaicjs/mosaic-state/issues"
+    "url": "https://github.com/mosaicjs/mosaic-state-manager/issues"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
@@ -25,7 +25,7 @@
     "webpack": "^1.10.1"
   },
   "dependencies": {},
-  "homepage": "https://github.com/mosaicjs/mosaic-state#readme",
+  "homepage": "https://github.com/mosaicjs/mosaic-state-manager#readme",
   "directories": {
     "test": "test"
   }
