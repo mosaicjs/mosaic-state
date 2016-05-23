@@ -1,0 +1,32 @@
+{
+  "name": "mosaic-state",
+  "version": "0.0.1",
+  "description": "Very light-weight state management library",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec ./test/index.js",
+    "bump": "npm test && webpack && npm version patch && git push && git push --tags && npm publish",
+    "bump-minor": "npm run bump && npm version minor && git push && git push --tags && npm publish",
+    "commit": "npm test && webpack && git commit -a"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mosaicjs/mosaic-state.git"
+  },
+  "keywords": [],
+  "author": "Mikhail Kotelnikov <mikhail.kotelnikov@ubimix.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mosaicjs/mosaic-state/issues"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^2.4.5",
+    "webpack": "^1.10.1"
+  },
+  "dependencies": {},
+  "homepage": "https://github.com/mosaicjs/mosaic-state#readme",
+  "directories": {
+    "test": "test"
+  }
+}
