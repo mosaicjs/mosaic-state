@@ -1,1 +1,1 @@
-module.exports.State = require('./lib/State');
+module.exports = require('./lib');
