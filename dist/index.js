@@ -62,6 +62,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports.State = __webpack_require__(2);
+	module.exports.syncStates = __webpack_require__(3);
 
 
 /***/ },
@@ -122,7 +123,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        cursor.path = State.toPath(path);
 	        cursor.parent = parent;
 	        function cursor(value) {
-	            if (value !== undefined && State.get(state, cursor.path) !== value) {
+	            if (arguments.length && State.get(state, cursor.path) !== value) {
 	                state = State.set(state, cursor.path, value);
 	                notify(this);
 	            }
@@ -184,7 +185,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var newValue = doUpdate(oldValue || {}, path, pos + 1, value);
 	        if (oldValue !== newValue) {
 	            obj = State.extend({}, obj);
-	            if (value === undefined || value === null) {
+	            if (value === undefined && pos === path.length - 1) {
 	                delete obj[name];
 	            } else {
 	                obj[name] = newValue;
@@ -211,6 +212,58 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	module.exports = State;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	function syncStates(a, b, mapping) {
+	    var first = {
+	        state : a,
+	        cursors : [],
+	    };
+	    var second = {
+	        state : b,
+	        cursors : [],
+	    };
+	    Object.keys(mapping).forEach(function(firstPath) {
+	        var secondPath = mapping[firstPath];
+	        var firstCursor = first.state.cursor(firstPath);
+	        var secondCursor = second.state.cursor(secondPath);
+	        first.cursors.push(firstCursor);
+	        second.cursors.push(secondCursor);
+	    });
+	    var subscriptions = [];
+	    subscriptions.push(copyValues(first, second));
+	    subscriptions.push(copyValues(second, first));
+	    return function() {
+	        subscriptions.forEach(function(f) {
+	            f();
+	        });
+	    }
+	    function copyValues(from, to) {
+	        var silent = false;
+	        return from.state.addListener(function() {
+	            if (silent)
+	                return;
+	            silent = true;
+	            try {
+	                to.state.set(function() {
+	                    for (var i = 0; i < from.cursors.length; i++) {
+	                        var value = from.cursors[i]();
+	                        // if (value === undefined)
+	                        // value = null;
+	                        to.cursors[i](value);
+	                    }
+	                })
+	            } finally {
+	                silent = false;
+	            }
+	        });
+	    }
+	}
+	module.exports = syncStates;
+
 
 /***/ }
 /******/ ])
