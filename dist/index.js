@@ -97,7 +97,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (!listener)
 	            return;
 	        context = context || this;
-	        for (var i = listeners.length; i >= 0; i--) {
+	        for (var i = listeners.length - 1; i >= 0; i--) {
 	            var l = listeners[i];
 	            if (l.listener === listener && l.context === context) {
 	                listeners.splice(i, 1);
