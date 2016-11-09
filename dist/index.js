@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        listener = state;
 	        state = undefined;
 	    }
-	    var silent = false;
+	    var silent = 0;
 	    var prevState;
 	    if (state === undefined) {
 	        state = {};
@@ -90,7 +90,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            });
 	        }
 	        return function() {
-	            removeListener(listener);
+	            removeListener(listener, context);
 	        }
 	    }
 	    function removeListener(listener, context) {
@@ -143,15 +143,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return cursor;
 	    }
 	    var root = newCursor(null, []);
-	    root.set = function(action) {
+	    root.set = function set(action) {
 	        try {
-	            silent = true;
+	            silent++;
 	            return action.call(this);
 	        } finally {
-	            silent = false;
+	            silent--;
 	            notify(this);
 	        }
 	    }
+	    root.wrap = function wrap(action, obj) {
+	      obj = obj || {};
+	      var props = [];
+	      if (typeof action === 'function') {
+	        action = new action(root);
+	      }
+	      var o = action;
+	      while (o && o !== Object.prototype) {
+	        props = props.concat(Object.getOwnPropertyNames(o));
+	        o = Object.getPrototypeOf(o);
+	      }
+	      props.forEach(function(name) {
+	        var field = action[name];
+	        if (typeof field === 'function' && name[0] !== '_'
+	            && name !== 'constructor') {
+	          obj[name] = function() {
+	            var args = [];
+	            for (var i = 0; i < arguments.length; i++) {
+	              args.push(arguments[0]);
+	            }
+	            return root.set(function() {
+	              return field.apply(action, args);
+	            })
+	          }
+	        }
+	      })
+	      return obj;
+	    }
+
 	    return root;
 	}
 
