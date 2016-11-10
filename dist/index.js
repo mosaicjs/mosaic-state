@@ -152,35 +152,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            notify(this);
 	        }
 	    }
-	    root.wrap = function wrap(action, obj) {
-	      obj = obj || {};
-	      var props = [];
-	      if (typeof action === 'function') {
-	        action = new action(root);
-	      }
-	      var o = action;
-	      while (o && o !== Object.prototype) {
-	        props = props.concat(Object.getOwnPropertyNames(o));
-	        o = Object.getPrototypeOf(o);
-	      }
-	      props.forEach(function(name) {
-	        var field = action[name];
-	        if (typeof field === 'function' && name[0] !== '_'
-	            && name !== 'constructor') {
-	          obj[name] = function() {
-	            var args = [];
-	            for (var i = 0; i < arguments.length; i++) {
-	              args.push(arguments[0]);
-	            }
-	            return root.set(function() {
-	              return field.apply(action, args);
-	            })
-	          }
-	        }
-	      })
-	      return obj;
-	    }
-
 	    return root;
 	}
 
