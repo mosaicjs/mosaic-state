@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        listener = state;
 	        state = undefined;
 	    }
-	    var silent = false;
+	    var silent = 0;
 	    var prevState;
 	    if (state === undefined) {
 	        state = {};
@@ -89,7 +89,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            });
 	        }
 	        return function() {
-	            removeListener(listener);
+	            removeListener(listener, context);
 	        }
 	    }
 	    function removeListener(listener, context) {
