@@ -1,2 +1,1 @@
 require('./StateTest');
-require('./StateSyncTest');
