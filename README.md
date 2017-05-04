@@ -1,6 +1,6 @@
 # mosaic-state
 
-A very light-weight state management library (< 100 lines of code).
+A very light-weight state management library.
 It allows to manage immutable state objects using cursors. 
 Each cursor can update a individual branch in the state tree corresponding
 to the specified path. Cursor do not change the original state, they 
